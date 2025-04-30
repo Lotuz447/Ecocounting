@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beranda - Eco Counting</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #dce35b, #45b649);
+      color: #fff;
+    }
+
+    .navbar {
+      background-color: #a5d87b;
+      padding: 15px 30px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: absolute;
+      top: 0;
+      z-index: 10;
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .navbar a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+      color: #f0f0f0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      animation: fadeIn 2s ease;
+      padding: 40px 20px;
+    }
+
+    .hero h1 {
+      font-size: 60px;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+    }
+
+    .hero a {
+      background-color: white;
+      color: #45b649;
+      padding: 15px 30px;
+      font-size: 18px;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .hero a:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    .about {
+      background-color: #ffffff;
+      color: #333;
+      padding: 50px 20px;
+      text-align: center;
+    }
+
+    .about h2 {
+      font-size: 32px;
+      margin-bottom: 20px;
+    }
+
+    .about p {
+      max-width: 800px;
+      margin: auto;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .team {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .member {
+      width: 160px;
+      text-align: center;
+    }
+
+    .member img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .member h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      background-color: #2f2f2f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <h2>🕒 ECO COUNTING</h2>
+    <div>
+      <a href="index.html">Beranda</a>
+      <a href="app.html">App</a>
+    </div>
+  </div>
+
+  <div class="hero">
+    <h1>ECO COUNTING</h1>
+    <a href="app.html">Let's Go</a>
+  </div>
+
+  <div class="about">
+    <h2>Tentang Kami</h2>
+    <p>
+      Eco Counting adalah sebuah inisiatif digital untuk membantu pengguna memantau makanan mereka dengan efisien
+      melalui sistem timer cerdas. Kami percaya bahwa pengelolaan makanan yang tepat dapat membantu mengurangi pemborosan
+      dan mendukung keberlanjutan lingkungan. Setiap makanan yang terbuang punya cerita. Kami percaya, perubahan besar 
+      dimulai dari hal yang bisa dihitung. Melalui data, kami mengungkap di mana makanan hilang dan bagaimana kita bisa 
+      menyelamatkannya. Kami hadir untuk membantu Anda melihat lebih dalam, menghitung lebih cermat, dan berkontribusi 
+      dalam menciptakan sistem pangan yang lebih berkelanjutan.
+      Dalam Eco Counting, kami  percaya setiap gigitan memiliki dampak - tidak hanya kesehatan pribadi anda, tetapi pada 
+      planet yang kita tinggali ini. Lahir dari rasa kepedulian mendalam terhadap kesejahteraan dan keberlangsungan, 
+      Eco Counting hadir sebagai solusi inofatif untuk membantu penggunanya dalam membangun kebiasaan makan yang lebih 
+      menyadarkan melalui pemantauan makanan berbasis timer cerdas.
+    </p>
+
+    <div class="team">
+      <div class="member">
+        <img src="Evelyn.jpg" alt="Anggota 1">
+        <h4>Evelyn - UI Designer</h4>
+      </div>
+      <div class="member">
+        <img src="Finley.jpg" alt="Anggota 2">
+        <h4>Finley - IT/Programmer</h4>
+      </div>
+      <div class="member">
+        <img src="Ivana.jpg" alt="Anggota 3">
+        <h4>Ivana - UI Designer</h4>
+      </div>
+      <div class="member">
+        <img src="Jason.jpg" alt="Anggota 4">
+        <h4>Jason - IT/Programmer</h4>
+      </div>
+      <div class="member">
+        <img src="Kenzie.jpg" alt="Anggota 5">
+        <h4>Kenzie - CEO Eco Counting</h4>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Gelap -->
+  <footer>
+    &copy; 2025 Eco Counting. Semua Hak Dilindungi.
+  </footer>
+</body>
+</html>

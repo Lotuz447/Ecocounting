@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Beranda - Pemantau Makanan</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background-color: #fdfdfd;
+      color: #333;
+    }
+
+    .navbar {
+      background-color: #a5d87b;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .navbar h2 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar h2::before {
+      content: "🕒";
+      margin-right: 10px;
+    }
+
+    .navbar a {
+      color: white;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .navbar a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 30px 0 20px;
+      color: #2e4d29;
+    }
+
+    .input-form {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    input[type="file"],
+    input[type="number"] {
+      margin: 8px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 8px 16px;
+      font-size: 14px;
+      margin: 8px;
+      border: none;
+      border-radius: 6px;
+      background-color: #28a745;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #218838;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto 60px;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+
+    .timer {
+      font-size: 24px;
+      color: #007bff;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+
+    .buttons button {
+      background-color: #007bff;
+    }
+
+    .buttons button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>ECO COUNTING</h2>
+    <div>
+      <a href="index.html">Beranda</a>  
+      <a href="app.html">App</a>
+      
+      </div>
+  </div>
+
+  <h1>Tambahkan Timer Makananmu</h1>
+
+  <div class="input-form">
+    <input type="file" id="imageInput" accept="image/*">
+    <input type="number" id="minutesInput" placeholder="Menit" min="0">
+    <input type="number" id="secondsInput" placeholder="Detik" min="0">
+    <button onclick="addCard()">Tambah Timer</button>
+  </div>
+  
+  <!--Audio Alarm-->
+  <audio id="alarmSound" src="early-sunrise-517.mp3" preload="auto"></audio>
+
+  <div class="grid" id="cardContainer"></div>
+
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer Produk</title>
+    <style>
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px;
+            display: inline-block;
+            width: 200px;
+            text-align: center;
+        }
+        .timer {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        .buttons button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <script src="script.js">
+        let cardCount = 0;
+        const timers = [];
+
+        // Memuat produk dan timer dari localStorage saat halaman dimuat
+        window.onload = function() {
+            const productList = JSON.parse(localStorage.getItem("produk")) || [];
+            productList.forEach((product, index) => {
+                tampilkanCard(product.image, product.timer, index, product.remaining);
+            });
+        };
+
+        function addCard() {
+            const imageInput = document.getElementById("imageInput");
+            const minutes = parseInt(document.getElementById("minutesInput").value || 0);
+            const seconds = parseInt(document.getElementById("secondsInput").value || 0);
+            const totalSeconds = minutes * 60 + seconds;
+
+            if (!imageInput.files[0]) {
+                alert("Silakan unggah gambar terlebih dahulu!");
+                return;
+            }
+
+            if (totalSeconds <= 0) {
+                alert("Masukkan waktu yang valid.");
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const imgSrc = e.target.result;
+
+                // Ambil data produk yang ada di localStorage
+                const productList = JSON.parse(localStorage.getItem("produk")) || [];
+
+                // Tambahkan produk baru
+                productList.push({
+                    image: imgSrc,
+                    timer: totalSeconds,
+                    remaining: totalSeconds  // Menyimpan waktu yang tersisa
+                });
+
+                // Simpan kembali ke localStorage
+                localStorage.setItem("produk", JSON.stringify(productList));
+
+                tampilkanCard(imgSrc, totalSeconds, cardCount, totalSeconds);
+            };
+
+            reader.readAsDataURL(imageInput.files[0]);
+        }
+
+        function tampilkanCard(imgSrc, totalSeconds, index = cardCount, remaining = totalSeconds) {
+            const timerId = `timer${index}`;
+            const container = document.getElementById("cardContainer");
+
+            const card = document.createElement("div");
+            card.className = "card";
+            card.id = `card${index}`;
+            card.innerHTML = `
+                <img src="${imgSrc}" alt="Makanan" width="100">
+                <div class="timer" id="${timerId}">${formatTime(remaining)}</div>
+                <div class="buttons">
+                    <button onclick="startCountdown(${index})">Mulai</button>
+                    <button onclick="stopCountdown(${index})">Stop</button>
+                    <button onclick="deleteCountdown(${index})">Delete</button>
+                    <button onclick="resetCountdown(${index}, ${totalSeconds})">Reset</button>
+                </div>
+            `;
+            container.appendChild(card);
+
+            timers[index] = {
+                interval: null,
+                remaining: remaining,
+                original: totalSeconds,
+                timerId: timerId
+            };
+
+            cardCount++;
+        }
+
+        function formatTime(sec) {
+            const m = String(Math.floor(sec / 60)).padStart(2, '0');
+            const s = String(sec % 60).padStart(2, '0');
+            return `00:${m}:${s}`;
+        }
+
+        function startCountdown(index) {
+            const t = timers[index];
+            if (!t || t.interval) return;
+
+            t.interval = setInterval(() => {
+                if (t.remaining > 0) {
+                    t.remaining--;
+                    document.getElementById(t.timerId).textContent = formatTime(t.remaining);
+                    updateTimerInStorage(index, t.remaining);
+                } else {
+                    clearInterval(t.interval);
+                    t.interval = null;
+                    alert("Timer selesai!");
+                }
+            }, 1000);
+        }
+
+        function stopCountdown(index) {
+            const t = timers[index];
+            if (t && t.interval) {
+                clearInterval(t.interval);
+                t.interval = null;
+            }
+        }
+
+        function resetCountdown(index, originalTime) {
+            const t = timers[index];
+            if (t) {
+                clearInterval(t.interval);
+                t.remaining = originalTime;
+                document.getElementById(t.timerId).textContent = formatTime(t.remaining);
+                t.interval = null;
+                updateTimerInStorage(index, t.remaining);
+            }
+        }
+
+        function deleteCountdown(index) {
+            // Menghapus timer dari localStorage
+            const productList = JSON.parse(localStorage.getItem("produk")) || [];
+            productList.splice(index, 1);  // Menghapus item berdasarkan index
+            localStorage.setItem("produk", JSON.stringify(productList));
+
+            // Menghapus card dari tampilan
+            const card = document.getElementById(`card${index}`);
+            if (card) {
+                card.remove();
+            }
+
+            // Menghapus data timer
+            timers.splice(index, 1);
+
+            // Menyesuaikan ulang index card yang tersisa
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, i) => {
+                card.id = `card${i}`;  // Update id card
+                const timer = card.querySelector('.timer');
+                const buttons = card.querySelectorAll('button');
+                buttons.forEach(button => button.setAttribute('onclick', button.getAttribute('onclick').replace(index, i)));
+                timers[i].timerId = `timer${i}`; // Update timerId
+            });
+
+            cardCount--;
+        }
+
+        // Fungsi untuk menyimpan waktu yang tersisa ke localStorage
+        function updateTimerInStorage(index, remainingTime) {
+            const productList = JSON.parse(localStorage.getItem("produk")) || [];
+            if (productList[index]) {
+                productList[index].remaining = remainingTime;
+                localStorage.setItem("produk", JSON.stringify(productList));
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+</body>
+
+</html>
